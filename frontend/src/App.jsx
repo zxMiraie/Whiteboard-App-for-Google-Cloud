@@ -3,7 +3,10 @@ import io from 'socket.io-client';
 import WhiteboardCanvas from './WhiteboardCanvas.jsx';
 import Toolbar from './Toolbar.jsx';
 
-const socket = io('http://localhost:8080'); // Backend URL
+const socket = io('http://34.8.213.204', {
+    transports: ['websocket'], // Force WebSocket only
+    upgrade: true,             // Allow WebSocket upgrades
+});
 
 export default function App() {
     const [items, setItems] = useState([]);
@@ -12,7 +15,7 @@ export default function App() {
 
     useEffect(() => {
         // Fetch initial state
-        fetch('http://localhost:8080/api/whiteboard')
+        fetch('http://34.8.213.204/api/whiteboard')
             .then(res => res.json())
             .then(data => setItems(data));
 

@@ -13,9 +13,11 @@ const io = new Server(server, {
     cors: { origin: "*" }
 });
 
-// Connect to local Redis for testing to - to change
-const redis = new Redis({ host: 'localhost', port: 6379 });
-const subscriber = new Redis({ host: 'localhost', port: 6379 });
+// Use environment variables for Redis connection
+const redisHost = process.env.REDIS_HOST || 'localhost';
+const redisPort = parseInt(process.env.REDIS_PORT, 10) || 6379;
+const redis = new Redis({ host: redisHost, port: redisPort });
+const subscriber = new Redis({ host: redisHost, port: redisPort });
 
 subscriber.subscribe('whiteboard_updates');
 
@@ -40,7 +42,6 @@ io.on('connection', (socket) => {
     console.log('Client connected');
 
     socket.on('draw', async (item) => {
-        // 'item' can be pen, rect, text, etc.
         await redis.rpush('whiteboard_items', JSON.stringify(item));
         await redis.publish('whiteboard_updates', JSON.stringify(item));
     });

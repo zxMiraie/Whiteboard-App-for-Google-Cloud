@@ -9,12 +9,11 @@ export default function WhiteboardCanvas({ items, onDraw, tool, color }) {
     useEffect(() => {
         const ctx = canvasRef.current.getContext('2d');
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        // Redraw all items
         items.forEach(item => {
             drawItem(ctx, item);
         });
 
-        // If currently drawing a rectangle, show a preview
+
         if (drawing && tool === 'rect' && startPos && currentPos) {
             drawItem(ctx, {
                 type: 'rect',
@@ -77,11 +76,10 @@ export default function WhiteboardCanvas({ items, onDraw, tool, color }) {
         const pos = getMousePos(e);
 
         if (tool === 'pen') {
-            // Draw a line segment from startPos to current pos
+
             onDraw({ type: 'pen', x: startPos.x, y: startPos.y, x2: pos.x, y2: pos.y, color });
             setStartPos(pos); // continuous line
         } else if (tool === 'rect') {
-            // Just update currentPos for previewing the rectangle
             setCurrentPos(pos);
         }
     };
