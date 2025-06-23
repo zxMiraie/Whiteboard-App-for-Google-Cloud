@@ -1,3 +1,2 @@
 # Google Cloud Whiteboard app with load balancing and all that 
-
-## TODO the readme and setup - but in practice just set autoscaling machines and a loadbalancer http 
+- To finish writing this - a small chunk of code is AI generated... Sorry!
